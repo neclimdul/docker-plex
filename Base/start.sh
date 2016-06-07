@@ -28,7 +28,6 @@ if [ "$EXISTS" = "0" ]; then
 else
   # GID exists, find group name and add
   GROUP=$(getent group "$TARGET_GID" | cut -d: -f1)
-  usermod -a -G "${GROUP}" plex
 fi
 
 usermod -a -G "${GROUP}" plex
