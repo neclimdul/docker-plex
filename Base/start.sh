@@ -20,7 +20,7 @@ chown plex: /supervisord.log /supervisord.pid
 # Get the proper group membership, credit to http://stackoverflow.com/a/28596874/249107
 
 TARGET_GID=$(stat -c "%g" /data)
-EXISTS=$(cat /etc/group | grep "${TARGET_GID}" | wc -l)
+EXISTS=$(grep "${TARGET_GID}" /etc/group | wc -l)
 
 # Create new group using target GID and add plex user
 if [ "$EXISTS" = "0" ]; then
