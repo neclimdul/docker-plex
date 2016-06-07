@@ -37,13 +37,13 @@ if [[ -n "${SKIP_CHOWN_CONFIG}" ]]; then
 fi
 
 if [ "${CHANGE_CONFIG_DIR_OWNERSHIP,,}" = "true" ]; then
-  find /config ! -user plex -print0 | xargs -0 -I{} chown -R plex: {}
+  find /config ! -user plex -print0 | xargs -0 -I{} chown -R plex: {}&
 fi
 
 # Will change all files in directory to be readable by group
 if [ "${CHANGE_DIR_RIGHTS,,}" = "true" ]; then
-  chgrp -R "${GROUP}" /data
-  chmod -R g+rX /data
+  chgrp -R "${GROUP}" /data&
+  chmod -R g+rX /data&
 fi
 
 # Preferences
@@ -112,7 +112,6 @@ fi
 # Detect networks and add them to the allowed list of networks
 PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$(ip route | grep '/' | awk '{print $1}' | paste -sd "," -)}
 [ -n "${PLEX_ALLOWED_NETWORKS}" ] && setPreference allowedNetworks "${PLEX_ALLOWED_NETWORKS}"
-
 
 # Remove previous pid if it exists
 rm "${PLEX_PID}"
