@@ -37,7 +37,7 @@ if [[ -n "${SKIP_CHOWN_CONFIG}" ]]; then
 fi
 
 if [ "${CHANGE_CONFIG_DIR_OWNERSHIP,,}" = "true" ]; then
-  find /config ! -user plex -print0 | xargs -0 -I{} chown -R plex: {}&
+  find /config ! -user plex -print0 | xargs -0 -n 1 -P 2 -I{} chown -R plex: {}&
 fi
 
 # Will change all files in directory to be readable by group
