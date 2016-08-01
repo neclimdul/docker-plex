@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Tim Haak <tim@haak.co>
+MAINTAINER James Gilliland <neclimdul@gmail.com>
 
 ENV DEBIAN_FRONTEND="noninteractive" \
     TERM="xterm"

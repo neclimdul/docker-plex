@@ -1,5 +1,5 @@
 FROM neclimdul/plex:base
-MAINTAINER Tim Haak <tim@haak.co>
+MAINTAINER James Gilliland <neclimdul@gmail.com>
 
 RUN echo "deb http://shell.ninthgate.se/packages/debian wheezy main" > /etc/apt/sources.list.d/plexmediaserver.list && \
     apt-get -q update && \
