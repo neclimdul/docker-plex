@@ -1,4 +1,4 @@
-FROM neclimdul/plex:base
+FROM neclimdul/docker-plex:base
 MAINTAINER James Gilliland <neclimdul@gmail.com>
 
 RUN echo "deb http://shell.ninthgate.se/packages/debian plexpass main" > /etc/apt/sources.list.d/plexmediaserver.list && \
