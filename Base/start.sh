@@ -37,7 +37,7 @@ ensureDataGroup() {
     PLEX_GROUP=$(getent group "$TARGET_GID" | cut -d: -f1)
   fi
 
-  usermod -a -G "${PLEX_GROUP}" $PLEX_USER
+  usermod -a -G "${PLEX_GROUP}" $SERVICE_USER
 
     # Will change all files in directory to be readable by group
   if [ "${CHANGE_DIR_RIGHTS,,}" = "true" ]; then
