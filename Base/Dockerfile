@@ -24,7 +24,6 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup &&\
       openssl \
       xmlstarlet \
       curl \
-      sudo \
     && \
     apt-get -y autoremove && \
     apt-get -y clean && \

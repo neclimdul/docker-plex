@@ -120,5 +120,5 @@ rm "${PLEX_PID}"
 if [ "${RUN_AS_ROOT,,}" = "true" ]; then
   /usr/sbin/start_pms
 else
-  sudo -u plex -E sh -c "/usr/sbin/start_pms"
+  su -m -c "/usr/sbin/start_pms" plex
 fi
