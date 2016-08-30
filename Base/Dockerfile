@@ -24,13 +24,12 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup &&\
       openssl \
       xmlstarlet \
       curl \
-      sudo \
     && \
-    curl http://shell.ninthgate.se/packages/shell.ninthgate.se.gpg.key | apt-key add - && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 
+ADD ./install.sh /install.sh
 ADD ./Preferences.xml /Preferences.xml
 ADD ./start.sh /start.sh

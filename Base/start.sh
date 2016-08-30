@@ -134,5 +134,5 @@ echo $((end-start)) > /config/startup.txt
 if [ "${RUN_AS_ROOT,,}" = "true" ]; then
   /usr/sbin/start_pms
 else
-  sudo -u $SERVICE_USER -E sh -c "/usr/sbin/start_pms"
+  su -m -c "/usr/sbin/start_pms" $SERVICE_USER
 fi
