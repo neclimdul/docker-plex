@@ -50,7 +50,7 @@ ensureDataGroup() {
 ensureConfigOwnership() {
   if [ "${CHANGE_CONFIG_DIR_OWNERSHIP,,}" = "true" ]; then
     echo "Changing config directory ownership"
-    find /config ! -user $SERVICE_USER -print0 | xargs -0 -n 1 -P 2 -I{} chown $SERVICE_USER: {}
+    find /config ! -user $SERVICE_USER -print0 | xargs -0 -n 1 -P 3 -I{} chown $SERVICE_USER: {}
   fi
 }
 
