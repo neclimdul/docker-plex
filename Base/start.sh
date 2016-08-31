@@ -122,7 +122,8 @@ fi
 [ -n "${PLEX_DISABLE_SECURITY}" ] && setPreference disableRemoteSecurity "${PLEX_DISABLE_SECURITY}"
 
 # Detect networks and add them to the allowed list of networks
-# PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$(ip route | grep '/' | awk '{print $1}' | paste -sd "," -)}
+NETWORK_LIST=$(ip route | grep '/' | awk '{print $1}' | paste -sd "," -)
+PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$NETWORK_LIST}
 [ -n "${PLEX_ALLOWED_NETWORKS}" ] && setPreference allowedNetworks "${PLEX_ALLOWED_NETWORKS}"
 
 # Remove previous pid if it exists
