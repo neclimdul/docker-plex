@@ -42,7 +42,7 @@ ensureDataGroup() {
     # Will change all files in directory to be readable by group
   if [ "${CHANGE_DIR_RIGHTS,,}" = "true" ]; then
     echo "Changing data directory ownership and rights"
-    find /config ! -group "${PLEX_GROUP}" -print0 | xargs -0 -n 1 -P 2 -I{} chgrp "${PLEX_GROUP}" {}
+    find /data ! -group "${PLEX_GROUP}" -print0 | xargs -0 -n 1 -P 3 -I{} chgrp "${PLEX_GROUP}" {}
     chmod -R g+rX /data
   fi
 }
