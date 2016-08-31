@@ -9,7 +9,6 @@ ENV DEBIAN_FRONTEND="noninteractive" \
     HOME="/config" \
     PLEX_DISABLE_SECURITY=1
 
-
 VOLUME ["/config","/data"]
 EXPOSE 32400
 CMD ["/start.sh"]

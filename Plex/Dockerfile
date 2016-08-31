@@ -2,9 +2,6 @@ FROM neclimdul/docker-plex:base
 MAINTAINER James Gilliland <neclimdul@gmail.com>
 
 ENV PLEX_URL="https://plex.tv/api/downloads/1.json"
-VOLUME ["/config","/data"]
-EXPOSE 32400
-CMD ["/start.sh"]
 
 RUN buildDeps="jq wget" && \
   apt-get -q update && apt-get upgrade -yq && \
