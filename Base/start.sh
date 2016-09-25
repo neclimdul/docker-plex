@@ -39,7 +39,7 @@ ensureDataGroup() {
 
   usermod -a -G "${PLEX_GROUP}" $SERVICE_USER
 
-    # Will change all files in directory to be readable by group
+  # Will change all files in directory to be readable by group
   if [ "${CHANGE_DIR_RIGHTS,,}" = "true" ]; then
     echo "Changing data directory ownership and rights"
     find /data ! -group "${PLEX_GROUP}" -print0 | xargs -0 -n 1 -P 3 -I{} chgrp "${PLEX_GROUP}" {}
@@ -63,16 +63,20 @@ setPreference(){
   local preference_key="$1"
   local preference_val="$2"
   if [ -z "$(getPreference "$preference_key")" ]; then
+    echo "Inserting $preference_key: $preference_val"
     xmlstarlet ed --inplace --insert "Preferences" --type attr -n "$preference_key" -v "$preference_val" "${PLEX_PREFERENCES}"
   else
+    echo "Updating $preference_key: $preference_val"
     xmlstarlet ed --inplace --update "/Preferences[@$preference_key]" -v "$preference_val" "${PLEX_PREFERENCES}"
   fi
 }
 
 function setConfig(){
   if [ -z "$(xmlstarlet sel -T -t -m "/Preferences" -v "@$1" -n /config/Library/Application\ Support/Plex\ Media\ Server/Preferences.xml)" ]; then
+    echo "Inserting $1: $2"
     xmlstarlet ed --inplace --insert "Preferences" --type attr -n "$1" -v "$2" "/config/Library/Application\ Support/Plex\ Media\ Server/Preferences.xml"
   else
+    echo "Updating $1: $2"
     xmlstarlet ed --inplace --update "/Preferences[@$1]" -v "$2" "/config/Library/Application\ Support/Plex\ Media\ Server/Preferences.xml"
   fi
 }
@@ -131,6 +135,9 @@ rm "${PLEX_PID}"
 
 end=`date +%s`
 echo $((end-start)) > /config/startup.txt
+echo "Benchmarks: $((end-start))"
+
+echo "Starting Plex"
 # Current defaults to run as root while testing.
 if [ "${RUN_AS_ROOT,,}" = "true" ]; then
   /usr/sbin/start_pms
