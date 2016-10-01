@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND="noninteractive" \
     CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     HOME="/config" \
     PLEX_DISABLE_SECURITY=1 \
-    PLEX_URL="https://nerdpalace.net/plexpass.json"
+    PLEX_URL="${PLEX_URL}"
 
 VOLUME ["/config","/data"]
 EXPOSE 32400
