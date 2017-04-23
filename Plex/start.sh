@@ -131,7 +131,7 @@ PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$NETWORK_LIST}
 [ -n "${PLEX_ALLOWED_NETWORKS}" ] && setPreference allowedNetworks "${PLEX_ALLOWED_NETWORKS}"
 
 # Remove previous pid if it exists
-rm "${PLEX_PID}"
+rm -f "${PLEX_PID}"
 
 end=`date +%s`
 echo $((end-start)) > /config/startup.txt
