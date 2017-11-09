@@ -21,15 +21,15 @@ ADD install.sh /install.sh
 
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
   && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache \
-  && apt-get -q update \
-  && apt-get -qy dist-upgrade \
-  && apt-get install -qy \
+  && apt-get -qq update \
+  && apt-get -qqy dist-upgrade \
+  && apt-get install -qqy \
     iproute2 \
     ca-certificates \
     openssl \
     xmlstarlet \
     curl \
-  && apt-get install -qy $buildDeps \
+    $buildDeps \
   && sh /install.sh \
   && apt-get purge -qy $buildDeps \
   && apt-get -y autoremove \
