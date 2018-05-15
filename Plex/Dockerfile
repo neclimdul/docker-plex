@@ -7,6 +7,9 @@ CMD ["/sbin/my_init"]
 VOLUME ["/config","/data"]
 EXPOSE 32400
 
+HEALTHCHECK --interval=60s --timeout=2s --start-period=120s \
+            CMD curl -L 'http://localhost:32400/web/index.html'
+
 ENV DEBIAN_FRONTEND="noninteractive" \
     TERM="xterm" \
     RUN_AS_ROOT="false" \
