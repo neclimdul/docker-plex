@@ -7,10 +7,10 @@ sed -e "s#\${PLEX_URL}#$PLEX_URL#" Dockerfile.template > Plex/Dockerfile
 sed -e "s#\${PLEX_URL}#$PLEX_PASS_URL#" Dockerfile.template > PlexPass/Dockerfile
 
 for i in Plex PlexPass; do
-	cp install.sh $i
-	cp plex.sh $i
-	cp bootstrap.sh $i
-	cp Preferences.xml $i
+	cp base/install.sh $i
+	cp base/plex.sh $i
+	cp base/bootstrap.sh $i
+	cp base/Preferences.xml $i
 done
 #cd Plex && ln -sf ../install.sh && ln -sf ../start.sh && ln -sf ../Preferences.xml && cd -
 #cd PlexPass && ln -sf ../install.sh && ln -sf ../start.sh && ln -sf ../Preferences.xml && cd -
