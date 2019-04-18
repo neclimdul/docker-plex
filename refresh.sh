@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PLEX_URL="https://plex.tv/api/downloads/1.json"
+PLEX_URL="https://plex.tv/api/downloads/5.json"
 PLEX_PASS_URL="https://nerdpalace.net/plexpass.json"
 
 sed -e "s#\${PLEX_URL}#$PLEX_URL#" Dockerfile.template > Plex/Dockerfile
