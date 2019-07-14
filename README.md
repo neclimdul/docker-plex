@@ -54,7 +54,7 @@ docker run --restart=always -d --name plex --net="host" -h *your_host_name* -v /
 ### Environment Varaibles
 
 Variable Name         | Values               | Behaviour
---------------------: | :------------------: | :----------------------------------------------------------------------------------
+--------------------  | -------------------- | -----------------------------------------------------------------------------------
     SKIP_CHOWN_CONFIG | `TRUE` or `FALSE`    | Startup will be faster and there won't be a permissions check for the configuration
         PLEX_USERNAME | String               | Will add this Plex Media Server to that account
         PLEX_PASSWORD | String               | (Mandatory if username is set) The account password
