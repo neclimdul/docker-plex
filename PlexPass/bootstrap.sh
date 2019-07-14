@@ -138,10 +138,13 @@ fi
 # Allow disabling the remote security (hidding the Server tab in Settings)
 [ -n "${PLEX_DISABLE_SECURITY}" ] && setPreference disableRemoteSecurity "${PLEX_DISABLE_SECURITY}"
 
-# Detect networks and add them to the allowed list of networks
-NETWORK_LIST=$(ip route | grep '/' | awk '{print $1}' | paste -sd "," -)
-PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$NETWORK_LIST}
-[ -n "${PLEX_ALLOWED_NETWORKS}" ] && setPreference allowedNetworks "${PLEX_ALLOWED_NETWORKS}"
+if [ -n "${PLEX_ALLOWED_NETWORKS}" ]; then
+  setPreference allowedNetworks "${PLEX_ALLOWED_NETWORKS}"
+elif [ -n "${PLEX_AUTO_NETWORK}" ]; then
+  # Detect networks and add them to the allowed list of networks
+  NETWORK_LIST=$(ip route | grep '/' | awk '{print $1}' | paste -sd "," -)
+  PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$NETWORK_LIST}
+fi
 
 # Remove previous pid if it exists
 rm -f "${PLEX_PID}"
