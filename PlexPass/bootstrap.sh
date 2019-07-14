@@ -93,23 +93,7 @@ function setPreference(){
     xmlstarlet ed --inplace --insert "Preferences" --type attr -n "${preference_key}" -v "${preference_val}" "${PLEX_PREFERENCES}"
   else
     echo "Updating ${preference_key}: ${preference_val}"
-    xmlstarlet ed --inplace --update "/Preferences[@${preference_key}]" -v "${preference_val}" "${PLEX_PREFERENCES}"
-  fi
-}
-
-## Set config value.
-##
-## $1 - Config key
-## $2 - Config value
-function setConfig(){
-  local config_key="$1"
-  local config_val="$2"
-  if [ -z "$(xmlstarlet sel -T -t -m "/Preferences" -v "@${config_key}" -n /config/Library/Application\ Support/Plex\ Media\ Server/Preferences.xml)" ]; then
-    echo "Inserting ${config_key}: ${config_val}"
-    xmlstarlet ed --inplace --insert "Preferences" --type attr -n "${config_key}" -v "${config_val}" "/config/Library/Application\ Support/Plex\ Media\ Server/Preferences.xml"
-  else
-    echo "Updating ${config_key}: ${config_val}"
-    xmlstarlet ed --inplace --update "/Preferences[@${config_key}]" -v "${config_val}" "/config/Library/Application\ Support/Plex\ Media\ Server/Preferences.xml"
+    xmlstarlet ed --inplace --update "/Preferences[@${preference_key}]" --type attr -v "${preference_val}" "${PLEX_PREFERENCES}"
   fi
 }
 
@@ -144,7 +128,7 @@ elif [ -n "${PLEX_USERNAME}" ] && [ -n "${PLEX_PASSWORD}" ] && [ -n "$(getPrefer
 fi
 
 if [ "${PLEX_TOKEN}" ]; then
-  setConfig PlexOnlineToken "${PLEX_TOKEN}"
+  setPreference PlexOnlineToken "${PLEX_TOKEN}"
 fi
 
 # Tells Plex the external port is not "32400" but something else.
