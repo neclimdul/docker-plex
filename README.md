@@ -55,13 +55,13 @@ docker run --restart=always -d --name plex --net="host" -h *your_host_name* -v /
 
 | Variable Name          | Values               | Default | Behaviour |
 | ---------------------- | -------------------- | ------- | ----------------------------------------------------------------------------------- |
-|     SKIP_CHOWN_CONFIG  | `TRUE` or `FALSE`    | `FALSE` | Startup will be faster and there won't be a permissions check for the configuration |
-|         PLEX_USERNAME  | String               | Empty   | Will add this Plex Media Server to that account                                     |
-|         PLEX_PASSWORD  | String               | Empty   | (Mandatory if username is set) The account password                                 |
-|            PLEX_TOKEN  | [Plex token][1]      | Empty   | Plex token if you don't want to write your password                                 |
-|     PLEX_EXTERNALPORT  | Integer              | Empty   | The port if you're not using the default one (32400), ie. when using `-p 80:34200`  |
+| SKIP_CHOWN_CONFIG      | `TRUE` or `FALSE`    | `FALSE` | Startup will be faster and there won't be a permissions check for the configuration |
+| PLEX_USERNAME          | String               | Empty   | Will add this Plex Media Server to that account                                     |
+| PLEX_PASSWORD          | String               | Empty   | (Mandatory if username is set) The account password                                 |
+| PLEX_TOKEN             | [Plex token][1]      | Empty   | Plex token if you don't want to write your password                                 |
+| PLEX_EXTERNALPORT      | Integer              | Empty   | The port if you're not using the default one (32400), ie. when using `-p 80:34200`  |
 | PLEX_DISABLE_SECURITY  | `0` or `1`           | `1`     | If set to `1`, the remote security will be disabled                                 |
-|           RUN_AS_ROOT  | `true` or `false`    | `false` | *Dangerous* If true, will start Plex as root                                        |
+| RUN_AS_ROOT            | `true` or `false`    | `false` | *Dangerous* If true, will start Plex as root                                        |
 | PLEX_ALLOWED_NETWORKS  | Comma-separated list | Empty   | List of networks to allow access to.                                                |
 | PLEX_PLEX_AUTO_NETWORK | `0` or `1`           | `1`     | If set to 1 and PLEX_ALLOWED_NETWORKS is not set, will default to visibile networks |
 
