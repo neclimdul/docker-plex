@@ -35,7 +35,7 @@ if $RUN_AS_ROOT; then
   SERVICE_USER=root
 else
   SERVICE_USER=plex
-  usermod -u $CONFIG_UID -d $PLEX_HOME plex
+  useradd -u $CONFIG_UID -d $PLEX_HOME plex
 fi
 
 echo "Choose $SERVICE_USER because RUN_AS_ROOT set to $RUN_AS_ROOT"
