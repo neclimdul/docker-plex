@@ -9,7 +9,6 @@ if [ "${DEBUG,,}" = "true" ]; then
   echo "PLEX_DISABLE_SECURITY=${PLEX_DISABLE_SECURITY}"
   echo "PLEX_URL=${PLEX_URL}"
 fi
-CHANGE_DIR_RIGHTS="true"
 
 # Start time for benchmarks.
 start=`date +%s`
