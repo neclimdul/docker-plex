@@ -10,7 +10,9 @@ for i in Plex PlexPass; do
 	cp base/install.sh $i
 	cp base/start.sh $i
 	cp base/Preferences.xml $i
+	rm -f $i/cont-init.d/*
 	cp -av base/cont-init.d $i
+	rm -f $i/fix-attrs.d/*
 	cp -av base/fix-attrs.d $i
 done
 #cd Plex && ln -sf ../install.sh && ln -sf ../start.sh && ln -sf ../Preferences.xml && cd -
