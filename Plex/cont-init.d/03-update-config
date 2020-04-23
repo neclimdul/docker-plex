@@ -35,7 +35,7 @@ fi
 # Set the PlexOnlineToken to PLEX_TOKEN if defined,
 # otherwise get plex token if PLEX_USERNAME and PLEX_PASSWORD are defined,
 # otherwise account must be manually linked via Plex Media Server in Settings > Server
-if [ -n "${ }" ]; then
+if [ -n "${PLEX_TOKEN}" ]; then
   setPreference PlexOnlineToken ${PLEX_TOKEN}
 elif [ -n "${PLEX_USERNAME}" ] && [ -n "${PLEX_PASSWORD}" ] && [ -n "$(getPreference "PlexOnlineToken")" ]; then
   # Ask Plex.tv a token key
@@ -48,10 +48,6 @@ elif [ -n "${PLEX_USERNAME}" ] && [ -n "${PLEX_PASSWORD}" ] && [ -n "$(getPrefer
     -H 'X-Plex-Product: Plex Media Server'\
     -H 'X-Plex-Device: Linux'\
     -H 'X-Plex-Client-Identifier: XXXX' --compressed | sed -n 's/.*<authentication-token>\(.*\)<\/authentication-token>.*/\1/p')
-fi
-
-if [ "${PLEX_TOKEN}" ]; then
-  setPreference PlexOnlineToken "${PLEX_TOKEN}"
 fi
 
 # Tells Plex the external port is not "32400" but something else.
