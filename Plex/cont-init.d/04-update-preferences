@@ -20,10 +20,11 @@ function getPreference() {
 function setPreference() {
   local preference_key="$1"
   local preference_val="$2"
-  if [ -z "$(getPreference "${preference_key}")" ]; then
+  local current_preference_val="$(getPreference "${preference_key}")"
+  if [ -z $current_preference_val ]; then
     echo "Inserting ${preference_key}: ${preference_val}"
     xmlstarlet ed --inplace --insert "Preferences" --type attr -n "${preference_key}" -v "${preference_val}" "${PLEX_PREFERENCES}"
-  else
+  elif [ "${current_preference_val}" != "${preference_val}" ]; then
     echo "Updating ${preference_key}: ${preference_val}"
     xmlstarlet ed --inplace --update "/Preferences/@${preference_key}" -v "${preference_val}" "${PLEX_PREFERENCES}"
   fi
