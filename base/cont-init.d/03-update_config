@@ -1,3 +1,70 @@
 #!/bin/bash
 
-echo "TODO"
+## Get the value of a preference.
+##
+## $1 - Preference key
+function getPreference() {
+  local preference_key="$1"
+  xmlstarlet sel -T -t -m "/Preferences" -v "@${preference_key}" -n "${PLEX_PREFERENCES}"
+}
+
+## Set the value of a preference.
+##
+## $1 - Preference key
+## $2 - Preference value
+function setPreference(){
+  local preference_key="$1"
+  local preference_val="$2"
+  if [ -z "$(getPreference "${preference_key}")" ]; then
+    echo "Inserting ${preference_key}: ${preference_val}"
+    xmlstarlet ed --inplace --insert "Preferences" --type attr -n "${preference_key}" -v "${preference_val}" "${PLEX_PREFERENCES}"
+  else
+    echo "Updating ${preference_key}: ${preference_val}"
+    xmlstarlet ed --inplace --update "/Preferences/@${preference_key}" --type attr -v "${preference_val}" "${PLEX_PREFERENCES}"
+  fi
+}
+
+# Setup preferences.
+if [ ! -f "${PLEX_PREFERENCES}" ]; then
+  echo "Setting up first time files and folders."
+  pref_dir=$(dirname "${PLEX_PREFERENCES}")
+  mkdir -p "$pref_dir"
+  cp /Preferences.xml "${PLEX_PREFERENCES}"
+fi
+
+# Set the PlexOnlineToken to PLEX_TOKEN if defined,
+# otherwise get plex token if PLEX_USERNAME and PLEX_PASSWORD are defined,
+# otherwise account must be manually linked via Plex Media Server in Settings > Server
+if [ -n "${ }" ]; then
+  setPreference PlexOnlineToken ${PLEX_TOKEN}
+elif [ -n "${PLEX_USERNAME}" ] && [ -n "${PLEX_PASSWORD}" ] && [ -n "$(getPreference "PlexOnlineToken")" ]; then
+  # Ask Plex.tv a token key
+  PLEX_TOKEN=$(curl -u "${PLEX_USERNAME}":"${PLEX_PASSWORD}" 'https://plex.tv/users/sign_in.xml' \
+    -X POST -H 'X-Plex-Device-Name: PlexMediaServer' \
+    -H 'X-Plex-Provides: server' \
+    -H 'X-Plex-Version: 0.9' \
+    -H 'X-Plex-Platform-Version: 0.9' \
+    -H 'X-Plex-Platform: xcid' \
+    -H 'X-Plex-Product: Plex Media Server'\
+    -H 'X-Plex-Device: Linux'\
+    -H 'X-Plex-Client-Identifier: XXXX' --compressed | sed -n 's/.*<authentication-token>\(.*\)<\/authentication-token>.*/\1/p')
+fi
+
+if [ "${PLEX_TOKEN}" ]; then
+  setPreference PlexOnlineToken "${PLEX_TOKEN}"
+fi
+
+# Tells Plex the external port is not "32400" but something else.
+# Useful if you run multiple Plex instances on the same IP
+[ -n "${PLEX_EXTERNALPORT}" ] && setPreference ManualPortMappingPort "${PLEX_EXTERNALPORT}"
+
+# Allow disabling the remote security (hidding the Server tab in Settings)
+[ -n "${PLEX_DISABLE_SECURITY}" ] && setPreference disableRemoteSecurity "${PLEX_DISABLE_SECURITY}"
+
+if [ -n "${PLEX_ALLOWED_NETWORKS}" ]; then
+  setPreference allowedNetworks "${PLEX_ALLOWED_NETWORKS}"
+elif [ -n "${PLEX_AUTO_NETWORK}" ]; then
+  # Detect networks and add them to the allowed list of networks
+  NETWORK_LIST=$(ip route | grep '/' | awk '{print $1}' | paste -sd "," -)
+  PLEX_ALLOWED_NETWORKS=${PLEX_ALLOWED_NETWORKS:-$NETWORK_LIST}
+fi
