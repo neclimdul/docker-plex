@@ -22,11 +22,6 @@ PlexPluginProcs=6
 # Read configuration variable file if it is present
 [ -r /etc/default/plexmediaserver ] && . /etc/default/plexmediaserver
 
-if [ $Running -gt 0 ]; then
-  echo "Plex is already running."
-  exit 0
-fi
-
 if [ -f /etc/default/locale ]; then
   export LANG="$(cat /etc/default/locale | awk -F '=' '/LANG=/{print $2}' | sed 's/"//g')"
   export LC_ALL="$LANG"

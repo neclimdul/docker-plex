@@ -1,5 +1,10 @@
 #!/bin/bash
 
+##
+## Ideally this would live in fix-attrs.d but we don't have the user created
+## when that runs so we have to do it on our own.
+##
+
 PLEX_GROUP=plextmp
 DATA_GID=$(stat -c "%g" /data)
 CONFIG_UID=$(stat -c "%u" /config)
