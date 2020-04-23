@@ -17,7 +17,7 @@ ENV DEBIAN_FRONTEND="noninteractive" \
     CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     PLEX_MEDIA_SERVER_USER="plex" \
     PLEX_HOME="/config" \
-    PLEX_DISABLE_SECURITY=1 \
+    PLEX_DISABLE_SECURITY=0 \
     PLEX_URL="https://plex.tv/api/downloads/5.json"
 ENV buildDeps="jq wget"
 

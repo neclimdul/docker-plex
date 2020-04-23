@@ -17,7 +17,7 @@ ENV DEBIAN_FRONTEND="noninteractive" \
     CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     PLEX_MEDIA_SERVER_USER="plex" \
     PLEX_HOME="/config" \
-    PLEX_DISABLE_SECURITY=1 \
+    PLEX_DISABLE_SECURITY=0 \
     PLEX_URL="${PLEX_URL}"
 ENV buildDeps="jq wget"
 
