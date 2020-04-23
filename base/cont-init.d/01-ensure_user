@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv sh
+
+set -x
+echo "CHANGE_DIR_RIGHTS=${CHANGE_DIR_RIGHTS}"
+echo "CHANGE_CONFIG_DIR_OWNERSHIP=${CHANGE_CONFIG_DIR_OWNERSHIP}"
+echo "PLEX_HOME=${PLEX_HOME}"
+echo "PLEX_DISABLE_SECURITY=${PLEX_DISABLE_SECURITY}"
+echo "PLEX_URL=${PLEX_URL}"
+
+PLEX_GROUP=plextmp
+DATA_GID=$(stat -c "%g" /data)
+CONFIG_UID=$(stat -c "%u" /config)
+
+## Ensure user
+useradd -u $CONFIG_UID -d $PLEX_HOME $PLEX_MEDIA_SERVER_USER
+
+## Fix up group permissions on data directory.
+## Credit:  https://stackoverflow.com/a/28596874/249107
+{
+  EXISTS=$(grep "${DATA_GID}" /etc/group | wc -l)
+  if [ "$EXISTS" = "0" ]; then
+    # Create new group using target GID.
+    groupadd --gid "${DATA_GID}" "${PLEX_GROUP}"
+  else
+    # GID exists, find group name and use it instead.
+    PLEX_GROUP=$(getent group "$DATA_GID" | cut -d: -f1)
+  fi
+
+  # Ensure service user is part of the new group.
+  usermod -a -G "${PLEX_GROUP}" $PLEX_MEDIA_SERVER_USER
+}

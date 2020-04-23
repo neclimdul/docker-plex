@@ -1,20 +1,21 @@
-FROM phusion/baseimage
-MAINTAINER James Gilliland <neclimdul@gmail.com>
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+FROM ubuntu:focal
+LABEL maintainer="neclimdul@gmail.com"
 
 VOLUME ["/config","/data"]
 EXPOSE 32400
+ENTRYPOINT ["/init"]
+CMD ["/start.sh"]
 
 HEALTHCHECK --interval=60s --timeout=2s --start-period=120s \
             CMD curl -L 'http://localhost:32400/web/index.html'
 
+# Setup s6 init
+ENV S6_VERSION='1.21.8.0'
+
 ENV DEBIAN_FRONTEND="noninteractive" \
-    TERM="xterm" \
-    RUN_AS_ROOT="false" \
     CHANGE_DIR_RIGHTS="false" \
     CHANGE_CONFIG_DIR_OWNERSHIP="true" \
+    PLEX_MEDIA_SERVER_USER="plex" \
     PLEX_HOME="/config" \
     PLEX_DISABLE_SECURITY=1 \
     PLEX_URL="https://nerdpalace.net/plexpass.json"
@@ -23,7 +24,6 @@ ENV buildDeps="jq wget"
 ADD install.sh /install.sh
 
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
-  && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache \
   && apt-get update \
   && apt-get install -qqy \
     iproute2 \
@@ -32,6 +32,9 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
     xmlstarlet \
     curl \
     $buildDeps \
+  && wget "https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-amd64.tar.gz" -P /tmp \
+  && tar hzxf /tmp/s6-overlay-amd64.tar.gz -C / --exclude=usr/bin/execlineb \
+  && tar hzxf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin/execlineb && $_clean \
   && sh /install.sh \
   && apt-get purge -qy $buildDeps \
   && apt-get -y autoremove \
@@ -39,12 +42,10 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
   && rm -rf /var/lib/apt/lists/* \
   rm -rf /tmp/*
 
+ADD cont-init.d/* /etc/cont-init.d/
+# ADD fix-attrs.d/* /etc/fix-attrs.d/
+
 ADD Preferences.xml /Preferences.xml
 
-RUN mkdir /etc/service/plex
-COPY plex.sh /etc/service/plex/run
-RUN chmod +x /etc/service/plex/run
-
-RUN mkdir -p /etc/my_init.d
-COPY bootstrap.sh /etc/my_init.d/bootstrap.sh
-RUN chmod +x /etc/my_init.d/bootstrap.sh
+ADD start.sh /
+RUN chmod +x /start.sh

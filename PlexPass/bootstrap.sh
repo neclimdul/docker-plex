@@ -29,13 +29,7 @@ if [[ -n "${SKIP_CHOWN_CONFIG}" ]]; then
   CHANGE_CONFIG_DIR_OWNERSHIP=false
 fi
 
-# Set the group and user plex will run as.
-if $RUN_AS_ROOT; then
-  SERVICE_USER=root
-else
-  SERVICE_USER=plex
-  useradd -u $CONFIG_UID -d $PLEX_HOME plex
-fi
+
 
 echo "Choose $SERVICE_USER because RUN_AS_ROOT set to $RUN_AS_ROOT"
 echo $SERVICE_USER > /etc/container_environment/SERVICE_USER
@@ -92,7 +86,7 @@ function setPreference(){
     xmlstarlet ed --inplace --insert "Preferences" --type attr -n "${preference_key}" -v "${preference_val}" "${PLEX_PREFERENCES}"
   else
     echo "Updating ${preference_key}: ${preference_val}"
-    xmlstarlet ed --inplace --update "/Preferences[@${preference_key}]" --type attr -v "${preference_val}" "${PLEX_PREFERENCES}"
+    xmlstarlet ed --inplace --update "/Preferences/@${preference_key}" --type attr -v "${preference_val}" "${PLEX_PREFERENCES}"
   fi
 }
 

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+##
+## Ideally this would live in fix-attrs.d but we don't have the user created
+## when that runs so we have to do it on our own.
+##
+
+PLEX_GROUP=plextmp
+DATA_GID=$(stat -c "%g" /data)
+CONFIG_UID=$(stat -c "%u" /config)
+
+# Change all files in directory to be readable by group
+if [ "${CHANGE_DIR_RIGHTS,,}" = "true" ]; then
+  echo "Changing data directory ownership and rights"
+  # We don't need the data directory synced to do our other processes so fork it into the backgroup.
+  (find /data ! -gid "${DATA_GID}" -print0 | xargs -0 -n 1 -P 3 -I{} chgrp "${PLEX_GROUP}" {}) &
+  (chmod -R g+rX /data) &
+fi
+
+## Fix up ownership of config directory.
+if [ "${CHANGE_CONFIG_DIR_OWNERSHIP,,}" = "true" ]; then
+  echo "Changing config directory ownership"
+  find /config ! -user ${SERVICE_USER} -print0 | xargs -0 -n 1 -P 3 -I{} chown ${SERVICE_USER}: {}
+fi
+
+# Wait for backgrounded processes to complete.
+for job in `jobs -p`; do wait $job; done
