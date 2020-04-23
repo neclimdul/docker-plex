@@ -1,12 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-set -x
-echo "CHANGE_DIR_RIGHTS=${CHANGE_DIR_RIGHTS}"
-echo "CHANGE_CONFIG_DIR_OWNERSHIP=${CHANGE_CONFIG_DIR_OWNERSHIP}"
-echo "PLEX_HOME=${PLEX_HOME}"
-echo "PLEX_DISABLE_SECURITY=${PLEX_DISABLE_SECURITY}"
-echo "PLEX_URL=${PLEX_URL}"
-
 PLEX_GROUP=plextmp
 DATA_GID=$(stat -c "%g" /data)
 CONFIG_UID=$(stat -c "%u" /config)

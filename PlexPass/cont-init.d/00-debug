@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# If debug mode, then lets log the environment.
+if [ "${DEBUG}" = "true" ]; then
+  env
+fi
