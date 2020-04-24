@@ -120,3 +120,5 @@ echo "PLEX_MEDIA_SERVER_HOME=\"$PlexHome\"" >> /etc/default/plexmediaserver
 echo "PLEX_MEDIA_SERVER_MAX_STACK_SIZE=\"$PlexStackSize\"" >> /etc/default/plexmediaserver
 echo "PLEX_MEDIA_SERVER_TMPDIR=\"$PlexTempDir\"" >> /etc/default/plexmediaserver
 echo "PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=\"$PlexAppSuppDir\"" >> /etc/default/plexmediaserver
+# Force home so su works correctly
+echo "HOME=\"/config\"" >> /etc/default/plexmediaserver

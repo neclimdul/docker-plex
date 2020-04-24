@@ -26,5 +26,4 @@ export TMPDIR="${PLEX_MEDIA_SERVER_TMPDIR}"
 
 # Add sleep - for those who launch with this script
 echo "Starting Plex Media Server."
-
 su -m "$PLEX_MEDIA_SERVER_USER" -s /bin/sh -c "exec ${PLEX_MEDIA_SERVER_HOME}/Plex\ Media\ Server"
