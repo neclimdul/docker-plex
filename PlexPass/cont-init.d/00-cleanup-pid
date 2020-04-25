@@ -1,0 +1,2 @@
+#!/bin/sh
+rm /config/Library/Application\ Support/Plex\ Media\ Server/plexmediaserver.pid

@@ -42,8 +42,9 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
   && rm -rf /var/lib/apt/lists/* \
   rm -rf /tmp/*
 
-ADD cont-init.d/* /etc/cont-init.d/
 # ADD fix-attrs.d/* /etc/fix-attrs.d/
+ADD cont-init.d/* /etc/cont-init.d/
+ADD cont-finish.d/* /etc/cont-finish.d/
 
 ADD Preferences.xml /Preferences.xml
 
